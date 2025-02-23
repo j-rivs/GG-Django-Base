@@ -1,0 +1,36 @@
+Notes
+
+Django Architecture
+* Based on MVT or Model-View-Template architecture
+    - Model: acts as the interface with the data. Responsible for maintatin data. It is the logical data structure behind the entire application and is represented by a database4 (generally relations DBs such as MySQL, Postgres).
+    - View: the user interface that is seen in the browser when rendering a website. Represented by HTML/CSS/JS and Jinja files.
+    - Template: consists of static parts of the desired HTML output as well as some special syntax describing how dynamic content will be inserted.
+
+|       |<--Design and Updation--|      |--Display Data-->|          |
+| Model |                        | View |                 | Template |
+|       |-----Complete Data----->|      |<-- User Input --|          |
+
+
+* Virtual Environment
+    - Create virtual environment (venv) > python3 -m venv ./name
+    - Activate venv > source ./venv/bin/activate
+        * remember ./ indicates the current directory for when our terminal is opened in the same location as our venv
+
+* Install Django > pip install django
+
+* Starting a Django project
+    - Initiate a Django project > django-admin startproject projectName
+    - creates a new folder with the project's name, enter new folder > cd projectName
+    - Run the server > python manage.py runserver
+
+* Project Structure
+    - Django project contain basic files at launch. A simple project structure is enough to create a single-page application.
+
+    * manage.py: this file is used to interact with the project via the command line(start server, sync DB, etc.)
+        - get full list of commands that can be executed by manage.py > python manage.py help
+    * _init_.py: it is a python package. It is invoked when the package or module in the package is imported. Usually used to execute package initialization code, ex: for the initialization of package-level data.
+    * settings.py: contains all the website settings. In this file, register any created application, the location of static files, DB configuration details, etc.
+    * urls.py: store all links of the project and functions to call
+    * wsgi.py: used in dploying the project in WSGI. Used to help the Django application communicate with the webserver
+
+* Creating an app
