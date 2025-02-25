@@ -34,3 +34,104 @@ Django Architecture
     * wsgi.py: used in dploying the project in WSGI. Used to help the Django application communicate with the webserver
 
 * Creating an app
+    - Django is famous for its unique and fully managed app structure
+    - Each functionality can be created like a completely independent module
+        * ex: for creating a blog, modules can be made for comments, posts, login/logout, etc.
+    - These modules are known as apps in Django, there is a different app made for each task
+    - Benefits
+        * apps are resuable across multiple projects
+        * loosely coupled almost independent components
+        * multiple developers can work on different components
+        * Debugging and code organization are easy and Django has a good debugging tool
+        * Has built-in features like admin pages etc. these reduce effort of building the same from scratch
+    
+    - Django comes with preinstalled apps
+        * Found in projectName > projectName > settings.py
+            - settings.py has the INSTALLED_APPS list
+                * INSTALLED_APPS = [
+                    'django.contrib.admin',
+                    'django.contrib.auth',
+                    'django.contrib.contenttypes',
+                    'django.contrib.sessions',
+                    'django.contrib.messages',
+                    'django.contrib.staticfiles',
+                ]
+    - Creating a basic custom app
+        * Navigate to directory containing manage.py
+            - python manage.py startapp projectApp
+            - specify name of project in the INSTALLED_APPS list
+
+* Django Views
+    - A view function is a Python function that takes a Web request and returns a Web Responsible
+        * Response can be the HTML contents of a Web page or a redirect, or a 404 error, or an XML document, or an image, anything that a web browser can display
+    - Views are part of the user interface--they usually render the HTML/CSS/JS in the Templace files into what is seen in the browser when rendering a web page
+    - URL--Dispatcher-->Process Data(View)--Http renderer-->Templates--Http response-->User--Request-->URL (loop back in a cylce)
+    - ex: Creating View function
+        from django.http import HttpResponse
+
+        # create a function
+        def gg_view(request):
+            
+            return HttpResponse("<h1>Welcome to GG</h1>")
+    - Stepping through the code segment
+        * import the calss HttpResponse from the Django.http module along with Python's datetime library
+        * define a function, gg_view. Each iew function takes an HttpRequest obect as its first parameter, typically named request
+        * The view returns an HttpResponse object that contains the generated response. Each view function is responsible for returning an HttpResponse object
+    - The gg_view function will render the text Welcome to FF as h1 on the page
+        * Questions: wjat URL this function will be called and how will things such as URLs be handled
+
+* Types of Views
+    - Django views are divided into two major categories
+        * Function-Based Views
+        * Class based Views
+    - CRUD
+        * Create - create or add new entries in a table in teh DB
+        * Retrieve - read, retrieve, search, or view existing entries as a list(List View) or retrieve a particular entry in detail(Detail View)
+        * Update - update or edit existing entries in a table in the DB
+        * Delete - delete, deactivate, or remove existing entries in a table in the DB
+* Function-Based Views
+    - Function-based views are writer using a function in python which recieves as an argument HttpRequest object and returns and HttpResponse object
+    - Generally divided into 4 basic strategires i.e. CRUD (Create, Retrieve, Update, Delete), the basis for any framework being used for development
+        * Django CRUD > https://www.geeksforgeeks.org/django-crud-create-retrieve-update-delete-function-based-views/
+        * Create View > https://www.geeksforgeeks.org/create-view-function-based-views-django/
+        * List View > https://www.geeksforgeeks.org/list-view-function-based-views-django/
+        * Detail View > https://www.geeksforgeeks.org/detail-view-function-based-views-django/
+        * Update View > https://www.geeksforgeeks.org/update-view-function-based-views-django/
+        * Delete View > https://www.geeksforgeeks.org/delete-view-function-based-views-django/
+* Class-Based Views
+    - Class-based views provide an alternative way to implement views as Python objects instead of cuntions.
+    - They do not replace function-based views, but have certain differeneces and advantages when compared to function-based views:
+        * Organization of code related to specific HTTP methods (GET, POST, etc.) can be addressed by separate methods instead of conditional branching
+        * Object-oriented techniques such as mixins(multiple inheritances) can be used to factor code into resuable components
+    - Additional reference information
+        * Class Based Generic Views Django (Create, Retrieve, Update, Delete) > https://www.geeksforgeeks.org/class-based-generic-views-django-create-retrieve-update-delete/
+        * Createview > https://www.geeksforgeeks.org/createview-class-based-views-django/
+        * ListView > https://www.geeksforgeeks.org/listview-class-based-views-django/
+        * DetailView > https://www.geeksforgeeks.org/detailview-class-based-views-django/
+        * UpdateView > https://www.geeksforgeeks.org/updateview-class-based-views-django/
+        * DeleteView > https://www.geeksforgeeks.org/listview-class-based-views-django/
+        * FormView > https://www.geeksforgeeks.org/formview-class-based-views-django/
+
+* Django URL Patterns
+    - In Django, each view needs to be mapped to a corresponding URL Pattern (https://www.geeksforgeeks.org/django-url-patterns-python/?ref=gcse)
+    - This is done via a Python module called URLConf
+        * Every URLConf module must contain a vairable 'urlpatterns' which is a set of URL patterns to be matched against the requested URL
+            - Patterns are checked in sequence until the first match is found, and the view corresponding to that match is invoked
+            - If not URL pattern matches, Django invokes an appropriate error handling view
+* URL patterns
+    - Sample code for gg_sute/urls.py
+        from django.urls import path
+        from . import views
+
+        urlspatterns = [
+            path('', views.gg_view, name='gg_view')
+        ]
+* Including other URLConf modules
+    - it is good practire to have a URLCong module for every app in Django. This module needs to be included in the root URLConf module as follows:
+        from django.contrib import admin
+        from django.urls import path, include
+
+        urlpatterns = [
+            path('admin/', admin.site.urls),
+            path('', include('gg_site_app.urls'))
+        ]
