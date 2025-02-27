@@ -135,3 +135,6 @@ Django Architecture
             path('admin/', admin.site.urls),
             path('', include('gg_site_app.urls'))
         ]
+
+* Django Models
+    - 
